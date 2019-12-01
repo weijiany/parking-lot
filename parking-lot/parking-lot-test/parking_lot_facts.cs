@@ -1,5 +1,4 @@
 using System;
-using System.Globalization;
 using parking_lot;
 using Xunit;
 
@@ -10,13 +9,13 @@ namespace parking_lot_test
         private readonly Car _car;
         private ParkingLot _parkingLot;
         private const int parkingLotSize = 20;
-        
+
         public parking_lot_facts()
         {
             _car = new Car();
-            _parkingLot = new ParkingLot();
+            _parkingLot = new ParkingLot(parkingLotSize);
         }
-        
+
         [Fact]
         public void should_park_a_car_into_a_parking_lot_which_has_space_and_get_a_ticket()
         {
@@ -24,15 +23,15 @@ namespace parking_lot_test
 
             Assert.NotNull(ticket);
         }
-        
+
 //        given 一个停车场和一个有效小票 when 我去停车场取车 then 我可以取到我停的那辆车
         [Fact]
         public void should_get_the_car_given_valid_ticket_to_take_the_car()
         {
             var ticket = _parkingLot.Park(_car);
 
-            var myCar = _parkingLot.GetCar(ticket);
-            
+            var myCar = _parkingLot.Pick(ticket);
+
             Assert.Equal(_car, myCar);
         }
 
@@ -42,7 +41,7 @@ namespace parking_lot_test
             var ticketInvalid = new object();
 
 
-            Assert.Throws<Exception>(() => _parkingLot.GetCar(ticketInvalid));
+            Assert.Throws<Exception>(() => _parkingLot.Pick(ticketInvalid));
         }
 
         [Fact]
@@ -50,11 +49,11 @@ namespace parking_lot_test
         {
             var ticketUseWithSecond = _parkingLot.Park(_car);
 
-            var car = _parkingLot.GetCar(ticketUseWithSecond);
-            
+            var car = _parkingLot.Pick(ticketUseWithSecond);
+
             Assert.Equal(_car, car);
 
-            Assert.Throws<Exception>(() => _parkingLot.GetCar(ticketUseWithSecond));
+            Assert.Throws<Exception>(() => _parkingLot.Pick(ticketUseWithSecond));
         }
 
         [Fact]
@@ -67,6 +66,6 @@ namespace parking_lot_test
 
             Assert.Throws<Exception>(() => _parkingLot.Park(new Car()));
         }
-        
+
     }
 }
