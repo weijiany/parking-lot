@@ -7,10 +7,39 @@ namespace parking_lot
     public class ParkingBrother
     {
         private readonly List<ParkingLot> parkingLots;
+        private readonly List<ParkingLot> externalLots;
 
+        private bool canBeFoundInExternalLots(object ticket)
+        {
+            foreach (var lot in externalLots)
+            {
+                try
+                {
+                    lot.Pick(ticket);
+                    return true;
+                }
+                catch (InvalidTicketException ite)
+                {
+                    if (lot == externalLots.Last())
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return false;
+        }
+        
         public ParkingBrother(List<ParkingLot> lots)
         {
             parkingLots = lots;
+            externalLots = new List<ParkingLot>();
+        }
+
+        public ParkingBrother(List<ParkingLot> lots, List<ParkingLot> externalLots)
+        {
+            parkingLots = lots;
+            this.externalLots = externalLots;
         }
 
         public List<ParkingLot> GetLots()
@@ -32,7 +61,14 @@ namespace parking_lot
                 {
                     if (lot == parkingLots.Last())
                     {
-                        throw new InvalidTicketException("invalid ticket");
+                        if (canBeFoundInExternalLots(ticket))
+                        {
+                            throw new NotFoundException("not found");
+                        }
+                        else
+                        {
+                            throw new InvalidTicketException("invalid ticket");
+                        }
                     }
                 }
             }

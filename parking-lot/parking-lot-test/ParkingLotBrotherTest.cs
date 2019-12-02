@@ -110,9 +110,9 @@ namespace parking_lot_test
         {
             var parkingLot1 = new ParkingLot(1);
             var parkingLot2 = new ParkingLot(1);
-            var brother = new ParkingBrother(new List<ParkingLot> {parkingLot1});
+            var brother = new ParkingBrother(new List<ParkingLot> {parkingLot1}, new List<ParkingLot> {parkingLot2});
             var car = new Car();
-            var ticket = parkingLot2.Pick(car);
+            var ticket = parkingLot2.Park(car);
 
             var exception = Assert.Throws<NotFoundException>(() => brother.Pick(ticket));
             Assert.Equal("not found", exception.Message);
