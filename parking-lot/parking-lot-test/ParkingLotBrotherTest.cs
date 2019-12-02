@@ -76,7 +76,7 @@ namespace parking_lot_test
             var car = new Car();
             var ticket = brother.Park(car);
 
-            var exception = Assert.Throws<InvalidTicketException>(() => brother.Pick(ticket));
+            var exception = Assert.Throws<InvalidTicketException>(() => brother.Pick(new object()));
             Assert.Equal("invalid ticket", exception.Message);
         }
 

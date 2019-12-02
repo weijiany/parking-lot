@@ -18,16 +18,15 @@ namespace parking_lot
         {
             var ticket = new object();
             var count = ticketToCars.Count;
-            if (count >= _count) throw new Exception("ParkingLot is full");
+            if (count >= _count) throw new NoSpaceException("ParkingLot is full");
 
             ticketToCars.Add(ticket, car);
             return ticket;
-
         }
 
-        public object Pick(object ticket)
+        public Car Pick(object ticket)
         {
-            if (!ticketToCars.ContainsKey(ticket)) throw new Exception("Invalid ticket!");
+            if (!ticketToCars.ContainsKey(ticket)) throw new InvalidTicketException("invalid ticket");
 
             var car = ticketToCars[ticket];
             ticketToCars.Remove(ticket);
