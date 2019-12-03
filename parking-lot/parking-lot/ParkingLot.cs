@@ -1,41 +1,51 @@
-using System;
 using System.Collections.Generic;
 
 namespace parking_lot
 {
     public class ParkingLot
     {
-        private readonly Dictionary<object, Car> ticketToCars;
-        private readonly int _count;
+        private readonly Dictionary<object, Car> _ticketToCars = new Dictionary<object, Car>();
+        private readonly int _totalCount;
 
-        public ParkingLot(int count)
+        public ParkingLot(int totalCount)
         {
-            ticketToCars = new Dictionary<object, Car>();
-            _count = count;
+            _totalCount = totalCount;
         }
 
         public object Park(Car car)
         {
-            var ticket = new object();
-            var count = ticketToCars.Count;
-            if (count >= _count) throw new NoSpaceException("ParkingLot is full");
+            var existCount = _ticketToCars.Count;
+            if (existCount >= _totalCount)
+                throw new NoSpaceException("ParkingLot is full");
 
-            ticketToCars.Add(ticket, car);
+            var ticket = new object();
+            _ticketToCars.Add(ticket, car);
             return ticket;
         }
 
         public Car Pick(object ticket)
         {
-            if (!ticketToCars.ContainsKey(ticket)) throw new InvalidTicketException("invalid ticket");
+            if (!TicketIsValid(ticket))
+                throw new InvalidTicketException("invalid ticket");
 
-            var car = ticketToCars[ticket];
-            ticketToCars.Remove(ticket);
+            var car = _ticketToCars[ticket];
+            _ticketToCars.Remove(ticket);
             return car;
         }
 
         public int CurrentCount()
         {
-            return ticketToCars.Count;
+            return _ticketToCars.Count;
+        }
+
+        public bool IsFull()
+        {
+            return _ticketToCars.Count == _totalCount;
+        }
+
+        public bool TicketIsValid(object ticket)
+        {
+            return _ticketToCars.ContainsKey(ticket);
         }
     }
 }

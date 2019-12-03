@@ -39,7 +39,7 @@ namespace parking_lot_test
         public void should_not_take_the_car_when_given_a_invalid_ticket()
         {
             var ticketInvalid = new object();
-            
+
             Assert.Throws<InvalidTicketException>(() => _parkingLot.Pick(ticketInvalid));
         }
 
@@ -66,5 +66,19 @@ namespace parking_lot_test
             Assert.Throws<NoSpaceException>(() => _parkingLot.Park(new Car()));
         }
 
+        [Fact]
+        void should_return_true_when_lot_not_full()
+        {
+            Assert.False(_parkingLot.IsFull());
+        }
+
+        [Fact]
+        void should_return_true_when_check_a_car_in_parking_lot_given_the_car_in_parking_lot_()
+        {
+            var car = new Car();
+            var ticket = _parkingLot.Park(car);
+
+            Assert.True(_parkingLot.TicketIsValid(ticket));
+        }
     }
 }
