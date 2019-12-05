@@ -7,13 +7,13 @@ namespace parking_lot_test
     public class parking_lot_facts
     {
         private readonly Car _car;
-        private ParkingLot _parkingLot;
-        private const int parkingLotSize = 20;
+        private readonly ParkingLot _parkingLot;
+        private const int PARKING_LOT_SIZE = 20;
 
         public parking_lot_facts()
         {
             _car = new Car();
-            _parkingLot = new ParkingLot(parkingLotSize);
+            _parkingLot = new ParkingLot(PARKING_LOT_SIZE);
         }
 
         [Fact]
@@ -58,7 +58,7 @@ namespace parking_lot_test
         [Fact]
         public void should_not_park_car_when_parkinglot_is_full()
         {
-            for (int i = 0; i < parkingLotSize; i++)
+            for (var i = 0; i < PARKING_LOT_SIZE; i++)
             {
                 _parkingLot.Park(new Car());
             }
@@ -79,6 +79,14 @@ namespace parking_lot_test
             var ticket = _parkingLot.Park(car);
 
             Assert.True(_parkingLot.TicketIsValid(ticket));
+        }
+
+        [Fact]
+        void should_return_remain_space_count()
+        {
+            _parkingLot.Park(_car);
+
+            Assert.Equal(PARKING_LOT_SIZE - 1, _parkingLot.RemainSpaceCount());
         }
     }
 }

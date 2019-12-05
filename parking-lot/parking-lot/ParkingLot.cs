@@ -5,21 +5,21 @@ namespace parking_lot
     public class ParkingLot
     {
         private readonly Dictionary<object, Car> _ticketToCars = new Dictionary<object, Car>();
-        private readonly int _totalCount;
+        private int _remainCount;
 
-        public ParkingLot(int totalCount)
+        public ParkingLot(int remainCount)
         {
-            _totalCount = totalCount;
+            _remainCount = remainCount;
         }
 
         public object Park(Car car)
         {
-            var existCount = _ticketToCars.Count;
-            if (existCount >= _totalCount)
+            if (IsFull())
                 throw new NoSpaceException("ParkingLot is full");
 
             var ticket = new object();
             _ticketToCars.Add(ticket, car);
+            _remainCount --;
             return ticket;
         }
 
@@ -30,6 +30,7 @@ namespace parking_lot
 
             var car = _ticketToCars[ticket];
             _ticketToCars.Remove(ticket);
+            _remainCount ++;
             return car;
         }
 
@@ -40,12 +41,17 @@ namespace parking_lot
 
         public bool IsFull()
         {
-            return _ticketToCars.Count == _totalCount;
+            return _remainCount == 0;
         }
 
         public bool TicketIsValid(object ticket)
         {
             return _ticketToCars.ContainsKey(ticket);
+        }
+
+        public int RemainSpaceCount()
+        {
+            return _remainCount;
         }
     }
 }

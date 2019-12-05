@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using parking_lot;
+using parking_lot.brother;
 using Xunit;
 
 namespace parking_lot_test
@@ -16,9 +17,8 @@ namespace parking_lot_test
                 new ParkingLot(parkingCount), new ParkingLot(parkingCount)
             };
             var brother = new ParkingBrother(lots);
-            var brotherLots = brother.GetLots();
 
-            Assert.Equal(lots, brotherLots);
+            Assert.Equal(lots, brother.ParkingLots);
         }
 
         [Fact]
@@ -124,8 +124,8 @@ namespace parking_lot_test
             var parkingLot1 = new ParkingLot(1);
             var parkingLot2 = new ParkingLot(3);
             var parkingLot3 = new ParkingLot(2);
-            
-            var bro = new ParkingBrother(new List<ParkingLot>
+
+            var bro = new SmartParkingBrother(new List<ParkingLot>
             {
                 parkingLot1,
                 parkingLot2,
@@ -133,20 +133,20 @@ namespace parking_lot_test
             });
 
             bro.Park(new Car());
-            
+
             Assert.Equal(0, parkingLot1.CurrentCount());
             Assert.Equal(1, parkingLot2.CurrentCount());
             Assert.Equal(0, parkingLot3.CurrentCount());
         }
-        
+
         [Fact]
         public void should_park_car_to_the_first_plot_when_more_than_two_plots_have_same_number_of_empty_slots_as_maximum()
         {
             var parkingLot1 = new ParkingLot(2);
             var parkingLot2 = new ParkingLot(3);
             var parkingLot3 = new ParkingLot(3);
-            
-            var bro = new ParkingBrother(new List<ParkingLot>
+
+            var bro = new SmartParkingBrother(new List<ParkingLot>
             {
                 parkingLot1,
                 parkingLot2,
@@ -154,7 +154,7 @@ namespace parking_lot_test
             });
 
             bro.Park(new Car());
-            
+
             Assert.Equal(0, parkingLot1.CurrentCount());
             Assert.Equal(1, parkingLot2.CurrentCount());
             Assert.Equal(0, parkingLot3.CurrentCount());
