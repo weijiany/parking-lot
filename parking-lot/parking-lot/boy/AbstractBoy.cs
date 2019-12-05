@@ -2,13 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace parking_lot.brother
+namespace parking_lot.boy
 {
-    public abstract class AbstractBrother
+    public abstract class AbstractBoy
     {
         public IList<ParkingLot> ParkingLots { get; }
 
-        protected AbstractBrother(IList<ParkingLot> parkingLots)
+        protected AbstractBoy(IList<ParkingLot> parkingLots)
         {
             ParkingLots = parkingLots;
         }

@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace parking_lot.brother
+namespace parking_lot.boy
 {
-    public class SmartParkingBrother : AbstractBrother
+    public class SmartParkingBoy : AbstractBoy
     {
-        public SmartParkingBrother(IList<ParkingLot> parkingLots) : base(parkingLots)
+        public SmartParkingBoy(IList<ParkingLot> parkingLots) : base(parkingLots)
         {
         }
 
