@@ -1,6 +1,6 @@
 using System;
 
-namespace parking_lot
+namespace parking_lot.exception
 {
     public class NoSpaceException : Exception
     {

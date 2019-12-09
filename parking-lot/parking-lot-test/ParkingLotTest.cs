@@ -1,19 +1,20 @@
 using System;
 using parking_lot;
+using parking_lot.exception;
 using Xunit;
 
 namespace parking_lot_test
 {
-    public class parking_lot_facts
+    public class ParkingLotTest
     {
         private readonly Car _car;
         private readonly ParkingLot _parkingLot;
-        private const int PARKING_LOT_SIZE = 20;
+        private const int ParkingLotSize = 20;
 
-        public parking_lot_facts()
+        public ParkingLotTest()
         {
             _car = new Car();
-            _parkingLot = new ParkingLot(PARKING_LOT_SIZE);
+            _parkingLot = new ParkingLot(ParkingLotSize);
         }
 
         [Fact]
@@ -58,7 +59,7 @@ namespace parking_lot_test
         [Fact]
         public void should_not_park_car_when_parkinglot_is_full()
         {
-            for (var i = 0; i < PARKING_LOT_SIZE; i++)
+            for (var i = 0; i < ParkingLotSize; i++)
             {
                 _parkingLot.Park(new Car());
             }
@@ -86,7 +87,7 @@ namespace parking_lot_test
         {
             _parkingLot.Park(_car);
 
-            Assert.Equal(PARKING_LOT_SIZE - 1, _parkingLot.RemainSpaceCount());
+            Assert.Equal(ParkingLotSize - 1, _parkingLot.RemainSpaceCount());
         }
     }
 }

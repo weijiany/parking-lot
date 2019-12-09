@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using parking_lot.exception;
 
 namespace parking_lot
 {

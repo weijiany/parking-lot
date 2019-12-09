@@ -1,6 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using parking_lot.exception;
 
 namespace parking_lot.boy
 {
@@ -13,17 +13,15 @@ namespace parking_lot.boy
             ParkingLots = parkingLots;
         }
 
+        public abstract object Park(Car car);
+
         public Car Pick(object ticket)
         {
-            if (!ParkingLots.Any()) throw new Exception("No available parking lots.");
-
             var parkingLot = ParkingLots.FirstOrDefault(l => l.TicketIsValid(ticket));
             if (parkingLot == null)
                 throw new InvalidTicketException("invalid ticket");
 
             return parkingLot.Pick(ticket);
         }
-
-        public abstract object Park(Car car);
     }
 }
